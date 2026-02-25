@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Résultats</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:rgb(219, 208, 208); 
+}
+
+/* HEADER */
+.header{
+    background:rgb(252, 246, 246);
+    border-bottom:3px solid #107fff;
+    padding:10px;
+}
+
+.menu{
+      background:linear-gradient(135deg,#6a11cb,#2575fc);
+    padding:10px;
+    text-align:center;
+}
+
+.menu a{
+    color:rgb(223, 234, 16);
+    margin:0 10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.container{
+    display:flex;
+    padding:20px;
+}
+
+.content{
+    width:70%;
+    background:rgb(222, 228, 239);
+    padding:20px;
+    margin-right:20px;
+    border-radius:20px;
+}
+
+.contact{
+    width:30%;
+    background:rgb(222, 228, 239);
+    padding:10px;
+    margin-right:20px;
+    border-radius:80px;
+}
+
+img{
+    width:15%;
+    padding:10px;
+    margin-right:20px;
+    border-radius:80px;
+}
+
+.contact h3{
+    background:#230779;
+    color:white;
+    padding:20px;
+    border-radius:30px;
+    text-align:center;
+}
+
+h1{
+    background:#f27005f9;
+    border-radius:30px;
+}
+
+h4{
+    color:#107909f9;
+}
+
+.red-title{
+    color:red;
+    font-weight:bold;
+}
+
+.form-box{
+    border:2px solid #f3b0b0;
+    padding:15px;
+    margin-top:15px;
+}
+
+.form-box input{
+    width:95%;
+    padding:8px;
+    margin-top:5px;
+    margin-bottom:10px;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    cursor:pointer;
+    border-radius:10px;
+}
+
+.verify{
+    background:#dddddd;
+}
+
+.cancel{
+    background:#1e80ff;
+    color:white;
+}
+
+.result-box{
+    margin-top:20px;
+}
+
+.success{
+    background:green;
+    color:white;
+    padding:15px;
+}
+
+.fail{
+    background:red;
+    color:white;
+    padding:15px;
+}
+
+/* ✅ NOUVEAU FOOTER */
+.footer{
+    background:#09099c;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+.btn-print{
+    background:#0a2a66;
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+.fiche-container{
+    width:800px;
+    margin:auto;
+    font-family:Arial, sans-serif;
+}
+
+.fiche-header{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.fiche-photo{
+    width:120px;
+    height:150px;
+    object-fit:cover;
+}
+
+.section-title{
+    font-weight:bold;
+    margin-top:20px;
+    border-bottom:2px solid black;
+    padding-bottom:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+table, th, td{
+    border:1px solid black;
+    padding:6px;
+}
+
+@media print{
+    body *{
+        visibility:hidden;
+    }
+    #ficheImpression, #ficheImpression *{
+        visibility:visible;
+    }
+    #ficheImpression{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="menu">
+    <h1><marquee>ANNEE SCOLAIRE 2025-2026</marquee></h1>
+    <img src="JD/JD3.jpg">
+    <!-- ✅ Lien vers accueil -->
+    <a href="index.html">Accueil</a>
+    <a href="resultats.html">résultats</a>
+    <a href="info.html">contact</a>
+    <a href="election.html">Election</a>
+    <a href="#">Format des photos</a>
+    <a href="#">Préinscription</a>
+    <img src="JD/JD4.jpeg">
+</div>
+
+<div class="container">
+
+<div class="content">
+
+<h4>RESULTATS DU PREMIER TRIMESTRE SAISON 2025-2026</h4>
+
+<div class="form-box">
+<p class="red-title">Vérifiez avec votre nom et date :</p>
+
+<label>Nom et Prénom :</label>
+<input type="text" id="nom">
+
+<label>Date de naissance (JJ/MM/AAAA) :</label>
+<input type="text" id="date">
+
+<button class="verify" onclick="verifierNom()">VERIFIER</button>
+<button class="cancel" onclick="annulerNom()">ANNULER</button>
+</div>
+
+<br>
+
+<div class="form-box">
+<p class="red-title">Vérifiez avec votre Matricule :</p>
+
+<label>Numéro Matricule :</label>
+<input type="text" id="numero">
+
+<button class="verify" onclick="verifierNumero()">VERIFIER</button>
+<button class="cancel" onclick="annulerNumero()">ANNULER</button>
+</div>
+
+<div id="resultat" class="result-box"></div>
+
+</div>
+
+</div>
+
+<!-- ✅ FOOTER AJOUTÉ -->
+<div class="footer">
+© 2025 COLLEGE PRIVE LOUBO DE GRAND-ZATTRY  
+<br>
+Tous droits réservés | Développé par SISCO TECH
+</div>
+<button onclick="allerElection(niveauEleve, matriculeEleve)">
+Voter maintenant
+</button>
+<script>
+
+let admis = [
+{nom:"KOUAME OUFLE JOSEPH",genre:"M", date:"25/07/2006",numero:"16396197M",moyenne:17.27,valider:"✔",niveau:"BTS2",photo:"JD/JD5.jpeg",},
+{nom:"KONAN KOUAKOU MARUIS",date:"25/07/2007",numero:"16396198M",moyenne:18.80},
+{nom:"KOUASSI AMOIN MURIELLE",date:"08/08/2004",numero:"250002PC",moyenne:9.99},
+{nom:"KONE FANYOU",date:"01/12/2005",numero:"16396200M",moyenne:6.00}
+];
+localStorage.setItem("admis",JSON.stringify(admis));
+function afficherResultat(candidat){
+
+let r=document.getElementById("resultat");
+
+if(candidat.moyenne >= 10){
+r.innerHTML=`
+<div class="success">
+<h3>Félicitations 🎉</h3>
+Vous êtes ADMIS
+</div>
+<table border="1" width="100%" style="margin-top:10px;text-align:center;">
+<tr>
+<th>N°</th>
+<th>NOM & PRENOMS</th>
+<th>GENRE</th>
+<th>NE(E) LE</th>
+<th>N° MATRUCUL</th>
+<th>MOYENNE</th>
+<th>VALIDER</th>
+<th>NIVEAU</th>
+<th>PHOTO</th>
+</tr>
+<tr>
+<td>1</td>
+<td>${candidat.nom}</td>
+<td>${candidat.genre}</td>
+<td>${candidat.date}</td>
+<td>${candidat.numero}</td>
+<td>${candidat.moyenne}</td>
+<td>${candidat.valider}</td>
+<td>${candidat.niveau }</td>
+<td style="width:120px; height:140px;overflow:hidden;">
+  <img src="${candidat.photo}" 
+       style="width:100%; height:100%; object-fit:cover;display:block;">
+</td>
+</tr>
+</table>
+<br>
+<button onclick="imprimerFiche()" class="btn-print">
+   🖨️ Imprimer ma fiche
+</button>
+<button onclick="location.reload()" class="cancel">Nouvelle recherche</button>
+`;
+
+}else{
+
+r.innerHTML=`
+<div class="fail">
+<h3>Désolé💔</h3>
+vous n'est pas (admis) a l'èxamen blanc session 2025.
+</div>
+
+<table border="1" width="100%" style="margin-top:10px;text-align:center;">
+<tr>
+<th>N°</th>
+<th>NOM & PRENOMS</th>
+<th>GENRE</th>
+<th>NE(E) LE</th>
+<th>N° MATRICUL</th>
+<th>MOYENNE</th>
+<th>ECHOUER</th>
+<th>NIVEAU</th>
+<th>PHOTO</th>
+</tr>
+<tr>
+<td>1</td>
+<td>${candidat.nom}</td>
+<td>${candidat.genre}</td>
+<td>${candidat.date}</td>
+<td>${candidat.numero}</td>
+<td>${candidat.moyenne}</td>
+<td>${candidat.valider}</td>
+<td>${candidat.niveau}</td>
+<td style="width:130px; height:160px;overflow:hidden;">
+  <img src="${candidat.photo}" 
+       style="width:100%; height:100%; object-fit:cover;display:block;">
+</td>
+</tr>
+</table>
+<br>
+<button onclick="location.reload()" class="cancel">Nouvelle recherche</button>
+`;
+
+}
+}
+
+function verifierNom(){
+let nom=document.getElementById("nom").value.toUpperCase().trim();
+let date=document.getElementById("date").value.trim();
+let candidat=admis.find(c=>c.nom===nom && c.date===date);
+
+if(candidat){
+afficherResultat(candidat);
+}else{
+document.getElementById("resultat").innerHTML=`
+<div class="fail">
+<h3>Désolé</h3>
+Vous ne faites pas partie des admis session 2025.
+</div>
+<br>
+<button onclick="location.reload()" class="cancel">Nouvelle recherche</button>
+`;
+}
+}
+
+function verifierNumero(){
+let numero=document.getElementById("numero").value.trim();
+let candidat=admis.find(c=>c.numero===numero);
+
+if(candidat){
+afficherResultat(candidat);
+}else{
+document.getElementById("resultat").innerHTML=`
+<div class="fail">
+<h3>Désolé</h3>
+Numéro introuvable ou candidat non admis.
+</div>
+<br>
+<button onclick="location.reload()" class="cancel">Nouvelle recherche</button>
+`;
+}
+}
+
+function annulerNom(){
+document.getElementById("nom").value="";
+document.getElementById("date").value="";
+document.getElementById("resultat").innerHTML="";
+}
+
+function annulerNumero(){
+document.getElementById("numero").value="";
+document.getElementById("resultat").innerHTML="";
+}
+
+let refuses = [
+    { nom: "YAO PAUL", moyenne: 8.20 }
+];
+
+/* Sauvegarde dans le localStorage */
+localStorage.setItem("admis", JSON.stringify(admis));
+localStorage.setItem("refuses", JSON.stringify(refusés));
+
+function imprimerFiche(){
+
+    // Récupérer les infos du candidat
+    if(candidatTrouve){
+   localStorage.setItem("candidatImpression", JSON.stringify(candidatTrouve));
+}// ou ton  actuel
+
+    let contenu = `
+    <div class="fiche-container" id="ficheImpression">
+
+        <div class="fiche-header">
+            <h2>COLLEGE PRIVE LOUBO DE GRAND-ZATTRY</h2>
+            <h3 style="color:red; text-align:center; margin-top:10px;">
+   NUMERO MATRICULE : ${candidat.numero}
+</h3>
+            <img src="${candidat.photo}" class="fiche-photo">
+        </div>
+
+        <div class="section-title">Identification du candidat</div>
+
+        <p><strong>Nom et prénoms :</strong> ${candidat.nom}</p>
+        <p><strong>Genre :</strong> ${candidat.genre}</p>
+        <p><strong>Date de naissance :</strong> ${candidat.date}</p>
+        <p>
+   <strong>Numéro matricule :</strong> 
+   <span style="color:red; font-weight:bold; font-size:18px;">
+      ${candidat.numero}
+   </span>
+</p>
+        <p><strong>Moyenne :</strong> ${candidat.moyenne}</p>
+        <p><strong>Niveau :</strong> BTS2</p>
+
+        <div class="section-title">Calendrier des épreuves</div>
+
+        <table>
+            <tr>
+                <th>Dates</th>
+                <th>Epreuves</th>
+                <th>Lieux</th>
+            </tr>
+            <tr>
+                <td>12 Novembre 2025</td>
+                <td>GYMNASTIQUE</td>
+                <td>INJS</td>
+            </tr>
+            <tr>
+                <td>16 Novembre 2025</td>
+                <td>QCM</td>
+                <td>ERT</td>
+            </tr>
+            <tr>
+                <td>17 Novembre 2025</td>
+                <td>ATHLETISME</td>
+                <td>INJS</td>
+            </tr>
+        </table>
+
+        <p style="margin-top:30px; text-align:right;">
+            Document généré automatiquement
+        </p>
+
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML("beforeend", contenu);
+
+    window.print();
+}
+function allerElection(niveau, matricule){
+
+    // On enregistre les infos de l'élève
+    localStorage.setItem("niveau", niveau);
+    localStorage.setItem("matricule", matricule);
+
+    // On redirige vers la page vote
+    window.location.href="election.html";
+}
+</script>
+
+</body>
+</html>
